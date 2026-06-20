@@ -2,7 +2,7 @@
 
 A premium, highly interactive dashboard that allows you to search for any GitHub developer and analyze their profile metadata, repositories, and programming language breakdown. 
 
-Built with pure **HTML**, **CSS**, **Tailwind CSS**, **Vanilla JavaScript**, and the **GitHub REST API**. Served locally via **Vite** to support `.env` loading and ES module bundling.
+Built with pure **HTML**, **CSS**, **Bootstrap**, **Vanilla JavaScript**, and the **GitHub REST API**. Served locally via **Vite** to support `.env` loading and ES module bundling.
 
 ---
 
