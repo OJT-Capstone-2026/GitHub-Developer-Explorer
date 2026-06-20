@@ -1,5 +1,11 @@
 const BASE_URL = 'https://api.github.com';
-const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
+const GITHUB_TOKEN = import.meta.env?.VITE_GITHUB_TOKEN || (typeof localStorage !== 'undefined' ? localStorage.getItem('GITHUB_TOKEN') : null);
+
+console.log('GitHub API Config:', {
+  hasToken: !!GITHUB_TOKEN,
+  tokenPrefix: GITHUB_TOKEN ? GITHUB_TOKEN.substring(0, 15) : 'none',
+  tokenLength: GITHUB_TOKEN ? GITHUB_TOKEN.length : 0
+});
 
 /**
  * Helper to fetch data from GitHub API.

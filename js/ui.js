@@ -100,40 +100,41 @@ export function showLoader() {
   const errorContainer = document.getElementById('error-container');
   
   // Hide error container
-  errorContainer.classList.add('hidden');
+  errorContainer.classList.add('d-none');
   errorContainer.innerHTML = '';
 
   // Show profiles skeletons
   profileContainer.innerHTML = `
-    <div class="glass-panel glass-panel-glow rounded-2xl p-6 flex flex-col items-center text-center">
-      <div class="w-32 h-32 rounded-full skeleton mb-4"></div>
-      <div class="w-48 h-6 skeleton mb-2"></div>
-      <div class="w-32 h-4 skeleton mb-4"></div>
-      <div class="w-full h-12 skeleton mb-6"></div>
-      <div class="w-full grid grid-cols-3 gap-2 mb-6">
-        <div class="h-16 skeleton rounded-xl"></div>
-        <div class="h-16 skeleton rounded-xl"></div>
-        <div class="h-16 skeleton rounded-xl"></div>
+    <div class="glass-panel glass-panel-glow rounded-4 p-4 d-flex flex-column align-items-center text-center">
+      <div class="rounded-circle skeleton mb-3" style="width: 128px; height: 128px;"></div>
+      <div class="skeleton mb-2" style="width: 192px; height: 24px;"></div>
+      <div class="skeleton mb-3" style="width: 128px; height: 16px;"></div>
+      <div class="skeleton mb-4 w-100" style="height: 48px;"></div>
+      <div class="w-100 row g-2 mb-4">
+        <div class="col-4"><div class="skeleton rounded-3" style="height: 64px;"></div></div>
+        <div class="col-4"><div class="skeleton rounded-3" style="height: 64px;"></div></div>
+        <div class="col-4"><div class="skeleton rounded-3" style="height: 64px;"></div></div>
       </div>
-      <div class="w-full space-y-3">
-        <div class="h-4 skeleton w-3/4"></div>
-        <div class="h-4 skeleton w-2/3"></div>
-        <div class="h-4 skeleton w-1/2"></div>
+      <div class="w-100 d-flex flex-column gap-2 align-items-center">
+        <div class="skeleton w-75" style="height: 16px;"></div>
+        <div class="skeleton w-50" style="height: 16px;"></div>
+        <div class="skeleton w-25" style="height: 16px;"></div>
       </div>
     </div>
   `;
 
   // Show stats skeleton
   statsContainer.innerHTML = `
-    <div class="glass-panel rounded-2xl p-6">
-      <div class="w-48 h-6 skeleton mb-6"></div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-        <div class="h-48 w-48 rounded-full skeleton mx-auto"></div>
-        <div class="space-y-4">
-          <div class="h-6 skeleton w-full"></div>
-          <div class="h-6 skeleton w-5/6"></div>
-          <div class="h-6 skeleton w-4/5"></div>
-          <div class="h-6 skeleton w-2/3"></div>
+    <div class="glass-panel rounded-4 p-4">
+      <div class="skeleton mb-4" style="width: 192px; height: 24px;"></div>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5 d-flex justify-content-center">
+          <div class="rounded-circle skeleton" style="width: 128px; height: 128px;"></div>
+        </div>
+        <div class="col-md-7 d-flex flex-column gap-3">
+          <div class="skeleton w-100" style="height: 16px;"></div>
+          <div class="skeleton w-75" style="height: 16px;"></div>
+          <div class="skeleton w-50" style="height: 16px;"></div>
         </div>
       </div>
     </div>
@@ -141,18 +142,20 @@ export function showLoader() {
 
   // Show repos skeletons
   reposContainer.innerHTML = `
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="row g-3">
       ${Array(4).fill(0).map(() => `
-        <div class="glass-panel rounded-xl p-5 space-y-4">
-          <div class="flex justify-between items-start">
-            <div class="w-1/2 h-6 skeleton"></div>
-            <div class="w-16 h-5 skeleton rounded-full"></div>
-          </div>
-          <div class="w-full h-8 skeleton"></div>
-          <div class="flex space-x-4">
-            <div class="w-16 h-4 skeleton"></div>
-            <div class="w-12 h-4 skeleton"></div>
-            <div class="w-12 h-4 skeleton"></div>
+        <div class="col-md-6">
+          <div class="glass-panel rounded-3 p-4 d-flex flex-column gap-3">
+            <div class="d-flex justify-content-between align-items-center">
+               <div class="skeleton" style="width: 50%; height: 24px;"></div>
+               <div class="skeleton rounded-pill" style="width: 64px; height: 20px;"></div>
+            </div>
+            <div class="skeleton w-100" style="height: 40px;"></div>
+            <div class="d-flex gap-3">
+               <div class="skeleton" style="width: 64px; height: 16px;"></div>
+               <div class="skeleton" style="width: 48px; height: 16px;"></div>
+               <div class="skeleton" style="width: 48px; height: 16px;"></div>
+            </div>
           </div>
         </div>
       `).join('')}
@@ -160,7 +163,7 @@ export function showLoader() {
   `;
 
   // Reveal elements during loading
-  document.getElementById('display-wrapper').classList.remove('hidden');
+  document.getElementById('display-wrapper').classList.remove('d-none');
 }
 
 /**
@@ -180,77 +183,84 @@ export function renderProfile(user) {
   const joinedDate = formatDate(user.created_at);
 
   profileContainer.innerHTML = `
-    <div class="glass-panel glass-panel-glow rounded-2xl p-6 transition-all-300 hover-glow flex flex-col items-center">
+    <div class="glass-panel glass-panel-glow rounded-4 p-4 transition-all-300 hover-glow d-flex flex-column align-items-center">
       <!-- Profile Picture -->
-      <div class="relative group mb-4">
-        <div class="absolute -inset-0.5 bg-gradient-to-r from-sky-400 to-violet-500 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
-        <img src="${user.avatar_url}" alt="${user.name || user.login}" class="relative w-32 h-32 rounded-full border-4 border-slate-900 object-cover">
+      <div class="position-relative mb-3">
+        <!-- Glow backing -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 rounded-circle blur opacity-50" style="background: linear-gradient(135deg, #0dcaf0, #6f42c1); z-index: 0; transform: scale(1.03);"></div>
+        <img src="${user.avatar_url}" alt="${user.name || user.login}" class="position-relative rounded-circle border border-4 border-dark object-fit-cover" style="width: 128px; height: 128px; z-index: 1;">
       </div>
 
       <!-- Names -->
-      <h2 class="text-xl font-bold text-slate-100">${user.name || user.login}</h2>
-      <a href="${user.html_url}" target="_blank" class="text-sky-400 hover:underline text-sm font-medium mb-3 flex items-center gap-1">
+      <h2 class="h5 fw-bold text-white mb-1">${user.name || user.login}</h2>
+      <a href="${user.html_url}" target="_blank" class="text-info text-decoration-none hover-light mb-3 d-flex align-items-center gap-1" style="font-size: 14px;">
         @${user.login}
-        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
       </a>
 
       <!-- Bio -->
-      <p class="text-slate-400 text-sm text-center mb-6 px-2 italic">
+      <p class="text-secondary text-center mb-4 px-2 fst-italic" style="font-size: 14px;">
         ${user.bio || 'This developer has no bio.'}
       </p>
 
       <!-- Stats Grid -->
-      <div class="w-full grid grid-cols-3 gap-2 text-center mb-6">
-        <div class="bg-slate-800/40 border border-slate-700/30 rounded-xl p-2.5">
-          <div class="text-base font-extrabold text-sky-400">${user.followers}</div>
-          <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Followers</div>
+      <div class="w-100 row g-2 text-center mb-4">
+        <div class="col-4">
+          <div class="bg-dark bg-opacity-25 border border-secondary border-opacity-25 rounded-3 py-2.5">
+            <div class="h6 fw-bold text-info mb-0">${user.followers}</div>
+            <div class="text-secondary uppercase tracking-wider fw-semibold" style="font-size: 9px;">Followers</div>
+          </div>
         </div>
-        <div class="bg-slate-800/40 border border-slate-700/30 rounded-xl p-2.5">
-          <div class="text-base font-extrabold text-violet-400">${user.following}</div>
-          <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Following</div>
+        <div class="col-4">
+          <div class="bg-dark bg-opacity-25 border border-secondary border-opacity-25 rounded-3 py-2.5">
+            <div class="h6 fw-bold text-warning mb-0">${user.following}</div>
+            <div class="text-secondary uppercase tracking-wider fw-semibold" style="font-size: 9px;">Following</div>
+          </div>
         </div>
-        <div class="bg-slate-800/40 border border-slate-700/30 rounded-xl p-2.5">
-          <div class="text-base font-extrabold text-pink-400">${user.public_repos}</div>
-          <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Repos</div>
+        <div class="col-4">
+          <div class="bg-dark bg-opacity-25 border border-secondary border-opacity-25 rounded-3 py-2.5">
+            <div class="h6 fw-bold text-danger mb-0">${user.public_repos}</div>
+            <div class="text-secondary uppercase tracking-wider fw-semibold" style="font-size: 9px;">Repos</div>
+          </div>
         </div>
       </div>
 
       <!-- Additional Details List -->
-      <div class="w-full space-y-3.5 text-sm border-t border-slate-800 pt-5">
+      <div class="w-100 d-flex flex-column gap-3 text-sm border-top border-secondary-subtle pt-4" style="font-size: 14px;">
         ${user.company ? `
-          <div class="flex items-center text-slate-300 gap-3">
-            <i data-lucide="building" class="w-4 h-4 text-sky-400 shrink-0"></i>
-            <span class="truncate">${user.company}</span>
+          <div class="d-flex align-items-center text-light gap-3">
+            <i data-lucide="building" class="text-info shrink-0" style="width: 16px; height: 16px;"></i>
+            <span class="text-truncate">${user.company}</span>
           </div>
         ` : ''}
         
         ${user.location ? `
-          <div class="flex items-center text-slate-300 gap-3">
-            <i data-lucide="map-pin" class="w-4 h-4 text-pink-400 shrink-0"></i>
-            <span class="truncate">${user.location}</span>
+          <div class="d-flex align-items-center text-light gap-3">
+            <i data-lucide="map-pin" class="text-danger shrink-0" style="width: 16px; height: 16px;"></i>
+            <span class="text-truncate">${user.location}</span>
           </div>
         ` : ''}
 
         ${user.blog ? `
-          <div class="flex items-center text-slate-300 gap-3">
-            <i data-lucide="link" class="w-4 h-4 text-violet-400 shrink-0"></i>
-            <a href="${user.blog.startsWith('http') ? user.blog : 'https://' + user.blog}" target="_blank" class="hover:text-sky-400 truncate hover:underline">
+          <div class="d-flex align-items-center text-light gap-3">
+            <i data-lucide="link" class="text-warning shrink-0" style="width: 16px; height: 16px;"></i>
+            <a href="${user.blog.startsWith('http') ? user.blog : 'https://' + user.blog}" target="_blank" class="text-info text-decoration-none text-truncate hover-light">
               ${user.blog}
             </a>
           </div>
         ` : ''}
 
         ${user.twitter_username ? `
-          <div class="flex items-center text-slate-300 gap-3">
-            <i data-lucide="twitter" class="w-4 h-4 text-sky-400 shrink-0"></i>
-            <a href="https://twitter.com/${user.twitter_username}" target="_blank" class="hover:text-sky-400 truncate hover:underline">
+          <div class="d-flex align-items-center text-light gap-3">
+            <i data-lucide="twitter" class="text-info shrink-0" style="width: 16px; height: 16px;"></i>
+            <a href="https://twitter.com/${user.twitter_username}" target="_blank" class="text-info text-decoration-none text-truncate hover-light">
               @${user.twitter_username}
             </a>
           </div>
         ` : ''}
 
-        <div class="flex items-center text-slate-400 text-xs gap-3 border-t border-slate-800/50 pt-3">
-          <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-500 shrink-0"></i>
+        <div class="d-flex align-items-center text-secondary gap-3 border-top border-secondary border-opacity-10 pt-3" style="font-size: 12px;">
+          <i data-lucide="calendar" class="text-muted shrink-0" style="width: 14px; height: 14px;"></i>
           <span>Joined GitHub: ${joinedDate}</span>
         </div>
       </div>
@@ -269,9 +279,9 @@ export function renderRepos(repos) {
   
   if (repos.length === 0) {
     reposContainer.innerHTML = `
-      <div class="glass-panel rounded-2xl p-10 text-center text-slate-400">
-        <i data-lucide="folder-open" class="w-12 h-12 mx-auto mb-3 text-slate-500"></i>
-        <p class="font-medium">No repositories found.</p>
+      <div class="glass-panel rounded-4 p-5 text-center text-secondary">
+        <i data-lucide="folder-open" class="text-muted mb-3" style="width: 48px; height: 48px;"></i>
+        <p class="fw-medium mb-0">No repositories found.</p>
       </div>
     `;
     lucide.createIcons();
@@ -281,64 +291,66 @@ export function renderRepos(repos) {
   const repoCards = repos.map(repo => {
     const langColor = getLanguageColor(repo.language);
     return `
-      <div class="glass-panel rounded-xl p-5 hover-glow transition-all-300 flex flex-col justify-between h-full relative overflow-hidden group">
-        <!-- Floating Accent Glow -->
-        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-sky-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      <div class="col-md-6">
+        <div class="glass-panel rounded-3 p-4 hover-glow transition-all-300 d-flex flex-column justify-content-between h-100 position-relative overflow-hidden group">
+          <!-- Floating Accent Glow -->
+          <div class="position-absolute top-0 end-0 w-25 h-25 bg-gradient opacity-0 group-hover-opacity-100 transition duration-500" style="background: radial-gradient(circle, rgba(13, 202, 240, 0.15), transparent); pointer-events: none;"></div>
 
-        <div>
-          <!-- Title & Stats Badge -->
-          <div class="flex justify-between items-start gap-2 mb-2">
-            <h3 class="font-semibold text-slate-100 text-base group-hover:text-sky-400 transition-colors truncate max-w-[70%]">
-              <a href="${repo.html_url}" target="_blank" class="hover:underline flex items-center gap-1.5">
-                ${repo.name}
-              </a>
-            </h3>
-            <span class="text-[10px] font-semibold text-slate-400 bg-slate-800 border border-slate-700/60 rounded-full px-2.5 py-0.5 shrink-0">
-              ${repo.private ? 'Private' : 'Public'}
-            </span>
+          <div>
+            <!-- Title & Stats Badge -->
+            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+              <h3 class="h6 fw-semibold mb-0 text-truncate" style="max-width: 70%;">
+                <a href="${repo.html_url}" target="_blank" class="text-white text-decoration-none hover-light d-inline-flex align-items-center gap-1.5">
+                  ${repo.name}
+                </a>
+              </h3>
+              <span class="badge bg-dark border border-secondary text-secondary rounded-pill px-2.5 py-1" style="font-size: 9px;">
+                ${repo.private ? 'Private' : 'Public'}
+              </span>
+            </div>
+
+            <!-- Description -->
+            <p class="text-secondary text-sm mb-3 text-start" style="font-size: 13px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px;">
+              ${repo.description || 'No description provided.'}
+            </p>
           </div>
 
-          <!-- Description -->
-          <p class="text-slate-400 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">
-            ${repo.description || 'No description provided.'}
-          </p>
-        </div>
+          <!-- Meta Grid -->
+          <div class="d-flex align-items-center justify-content-between text-secondary border-top border-secondary border-opacity-25 pt-3 mt-auto" style="font-size: 12px;">
+            <!-- Left side: Language -->
+            <div class="d-flex align-items-center gap-1.5 fw-medium">
+              ${repo.language ? `
+                <span class="rounded-circle d-inline-block" style="width: 10px; height: 10px; background-color: ${langColor};"></span>
+                <span>${repo.language}</span>
+              ` : '<span>Markdown/Text</span>'}
+            </div>
 
-        <!-- Meta Grid -->
-        <div class="flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/60 pt-3.5 mt-auto">
-          <!-- Left side: Language -->
-          <div class="flex items-center gap-1.5 font-medium">
-            ${repo.language ? `
-              <span class="w-3 h-3 rounded-full inline-block" style="background-color: ${langColor};"></span>
-              <span>${repo.language}</span>
-            ` : '<span>Markdown/Text</span>'}
+            <!-- Right side: Stats -->
+            <div class="d-flex align-items-center gap-3 fw-semibold">
+              <span class="d-flex align-items-center gap-1" title="Stars">
+                <i data-lucide="star" class="text-warning" style="width: 14px; height: 14px;"></i>
+                <span>${repo.stargazers_count}</span>
+              </span>
+              <span class="d-flex align-items-center gap-1" title="Forks">
+                <i data-lucide="git-fork" class="text-info" style="width: 14px; height: 14px;"></i>
+                <span>${repo.forks_count}</span>
+              </span>
+              <span class="text-muted d-none d-sm-inline" title="Size">
+                ${formatSize(repo.size)}
+              </span>
+            </div>
           </div>
 
-          <!-- Right side: Stats -->
-          <div class="flex items-center gap-3 font-semibold">
-            <span class="flex items-center gap-1" title="Stars">
-              <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
-              <span>${repo.stargazers_count}</span>
-            </span>
-            <span class="flex items-center gap-1" title="Forks">
-              <i data-lucide="git-fork" class="w-3.5 h-3.5 text-sky-400"></i>
-              <span>${repo.forks_count}</span>
-            </span>
-            <span class="text-slate-500 hidden sm:inline" title="Size">
-              ${formatSize(repo.size)}
-            </span>
+          <div class="text-secondary mt-2 text-end" style="font-size: 10px;">
+            Updated ${formatRelativeTime(repo.updated_at)}
           </div>
-        </div>
-
-        <div class="text-[10px] text-slate-500 mt-2 text-right">
-          Updated ${formatRelativeTime(repo.updated_at)}
         </div>
       </div>
     `;
   }).join('');
 
   reposContainer.innerHTML = `
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="row g-3">
       ${repoCards}
     </div>
   `;
@@ -358,8 +370,8 @@ export function renderLanguages(repos) {
   
   if (activeRepos.length === 0) {
     statsContainer.innerHTML = `
-      <div class="glass-panel rounded-2xl p-6 text-center text-slate-400">
-        <p class="font-medium">No programming languages statistics available.</p>
+      <div class="glass-panel rounded-4 p-4 text-center text-secondary">
+        <p class="fw-medium mb-0">No programming languages statistics available.</p>
       </div>
     `;
     return;
@@ -390,33 +402,35 @@ export function renderLanguages(repos) {
 
   // Prepare UI layout for chart and progress bars
   statsContainer.innerHTML = `
-    <div class="glass-panel rounded-2xl p-6 hover-glow transition-all-300">
-      <h3 class="text-base font-bold text-slate-100 mb-6 flex items-center gap-2">
-        <i data-lucide="pie-chart" class="w-5 h-5 text-indigo-400"></i>
+    <div class="glass-panel rounded-4 p-4 hover-glow transition-all-300">
+      <h3 class="h6 fw-bold text-white mb-4 d-flex align-items-center gap-2">
+        <i data-lucide="pie-chart" class="text-info"></i>
         Language Breakdown
       </h3>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+      <div class="row g-4 align-items-center">
         <!-- Chart.js Canvas Container -->
-        <div class="relative w-44 h-44 mx-auto flex items-center justify-center">
-          <canvas id="language-chart"></canvas>
+        <div class="col-md-5 d-flex justify-content-center">
+          <div class="position-relative" style="width: 140px; height: 140px;">
+            <canvas id="language-chart"></canvas>
+          </div>
         </div>
 
         <!-- Detailed Progress Bars List -->
-        <div class="space-y-4">
+        <div class="col-md-7 d-flex flex-column gap-3">
           ${processedLangs.map(item => {
             const pct = ((item.count / totalLanguages) * 100).toFixed(0);
             const color = getLanguageColor(item.lang);
             return `
               <div>
-                <div class="flex justify-between text-xs font-semibold mb-1">
-                  <span class="text-slate-300 flex items-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-full inline-block" style="background-color: ${color};"></span>
+                <div class="d-flex justify-content-between text-secondary fw-semibold mb-1" style="font-size: 12px;">
+                  <span class="text-light d-flex align-items-center gap-1.5">
+                    <span class="rounded-circle d-inline-block" style="width: 8px; height: 8px; background-color: ${color};"></span>
                     ${item.lang}
                   </span>
-                  <span class="text-slate-400">${item.count} repo${item.count > 1 ? 's' : ''} (${pct}%)</span>
+                  <span>${item.count} repo${item.count > 1 ? 's' : ''} (${pct}%)</span>
                 </div>
-                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-700/20">
-                  <div class="h-2 rounded-full transition-all duration-1000" style="width: ${pct}%; background-color: ${color};"></div>
+                <div class="progress bg-dark rounded-pill border border-secondary border-opacity-10" style="height: 6px;">
+                  <div class="progress-bar rounded-pill transition-all" role="progressbar" style="width: ${pct}%; background-color: ${color};" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
             `;
@@ -488,30 +502,30 @@ export function renderLanguages(repos) {
 export function renderRateLimit(rateLimit) {
   const badge = document.getElementById('rate-limit-badge');
   if (!rateLimit) {
-    badge.classList.add('hidden');
+    badge.classList.add('d-none');
     return;
   }
 
   const { limit, remaining, reset } = rateLimit;
-  badge.classList.remove('hidden');
+  badge.classList.remove('d-none');
 
   // Calculate remaining time in minutes
   const timeDiff = reset - Date.now();
   const minsRemaining = Math.max(0, Math.ceil(timeDiff / (1000 * 60)));
 
-  let statusColor = 'text-green-400 border-green-500/30 bg-green-500/5';
+  let statusColor = 'text-success border-success-subtle bg-success bg-opacity-10';
   if (remaining < 15) {
-    statusColor = 'text-amber-400 border-amber-500/30 bg-amber-500/5';
+    statusColor = 'text-warning border-warning-subtle bg-warning bg-opacity-10';
   }
   if (remaining === 0) {
-    statusColor = 'text-red-400 border-red-500/30 bg-red-500/5';
+    statusColor = 'text-danger border-danger-subtle bg-danger bg-opacity-10';
   }
 
-  badge.className = `flex items-center gap-1.5 border px-3 py-1 rounded-full text-xs font-medium ${statusColor}`;
+  badge.className = `d-flex align-items-center gap-1.5 border px-3 py-1 rounded-pill text-xs fw-medium ${statusColor}`;
   badge.innerHTML = `
-    <i data-lucide="gauge" class="w-3.5 h-3.5"></i>
+    <i data-lucide="gauge" style="width: 14px; height: 14px;"></i>
     <span>Rate Limit: <b>${remaining}</b> / ${limit}</span>
-    ${remaining < limit ? `<span class="text-slate-500 ml-1">(Resets in ${minsRemaining}m)</span>` : ''}
+    ${remaining < limit ? `<span class="text-secondary ms-1">(Resets in ${minsRemaining}m)</span>` : ''}
   `;
 
   lucide.createIcons();
@@ -525,54 +539,54 @@ export function showError(type) {
   const displayWrapper = document.getElementById('display-wrapper');
   
   // Hide main cards during severe error
-  displayWrapper.classList.add('hidden');
-  errorContainer.classList.remove('hidden');
+  displayWrapper.classList.add('d-none');
+  errorContainer.classList.remove('d-none');
 
   let title = 'Oops! Something went wrong';
   let message = 'An unexpected error occurred. Please try again.';
   let icon = 'alert-triangle';
-  let color = 'text-rose-400 border-rose-500/30 bg-rose-500/5';
+  let color = 'text-danger border-danger bg-danger bg-opacity-10';
 
   if (type === 'USER_NOT_FOUND') {
     title = 'User Not Found';
     message = 'The username you searched for does not exist on GitHub. Please check the spelling and try again.';
     icon = 'user-x';
-    color = 'text-amber-400 border-amber-500/30 bg-amber-500/5';
+    color = 'text-warning border-warning bg-warning bg-opacity-10';
   } else if (type === 'INVALID_TOKEN') {
     title = 'Invalid API Token';
     message = 'The GitHub Personal Access Token in your .env file is invalid or expired. Please check your token format and permissions.';
     icon = 'shield-alert';
-    color = 'text-rose-400 border-rose-500/30 bg-rose-500/5';
+    color = 'text-danger border-danger bg-danger bg-opacity-10';
   } else if (type === 'FORBIDDEN') {
     title = 'Access Forbidden';
     message = 'The request was forbidden. If you are using a Personal Access Token, ensure it has the correct permissions.';
     icon = 'shield-off';
-    color = 'text-rose-400 border-rose-500/30 bg-rose-500/5';
+    color = 'text-danger border-danger bg-danger bg-opacity-10';
   } else if (type === 'API_RATE_LIMIT_EXCEEDED') {
     title = 'Rate Limit Exceeded';
     message = 'GitHub API Rate Limit has been exceeded. Please check back later or set up a Personal Access Token.';
     icon = 'hourglass';
-    color = 'text-rose-400 border-rose-500/30 bg-rose-500/5';
+    color = 'text-danger border-danger bg-danger bg-opacity-10';
   } else if (type === 'NETWORK_ERROR') {
     title = 'Network Connection Error';
     message = 'Unable to connect to GitHub. Please check your internet connection and try again.';
     icon = 'wifi-off';
-    color = 'text-red-400 border-red-500/30 bg-red-500/5';
+    color = 'text-danger border-danger bg-danger bg-opacity-10';
   } else if (type && type.startsWith('HTTP_ERROR_')) {
     const statusCode = type.replace('HTTP_ERROR_', '');
     title = `HTTP Error ${statusCode}`;
     message = `GitHub API returned an error status code ${statusCode}. Please try again later.`;
     icon = 'alert-circle';
-    color = 'text-rose-400 border-rose-500/30 bg-rose-500/5';
+    color = 'text-danger border-danger bg-danger bg-opacity-10';
   }
 
   errorContainer.innerHTML = `
-    <div class="glass-panel max-w-xl mx-auto rounded-2xl p-8 border ${color} flex flex-col items-center text-center transition-all-300">
-      <div class="p-3.5 rounded-full bg-slate-800/80 mb-4 border border-slate-700/30">
-        <i data-lucide="${icon}" class="w-8 h-8"></i>
+    <div class="glass-panel max-w-xl mx-auto rounded-4 p-4 border ${color} d-flex flex-column align-items-center text-center transition-all-300" style="max-width: 500px;">
+      <div class="p-3 rounded-circle bg-dark bg-opacity-50 mb-3 border border-secondary border-opacity-25">
+        <i data-lucide="${icon}" style="width: 32px; height: 32px;"></i>
       </div>
-      <h3 class="text-lg font-bold mb-2">${title}</h3>
-      <p class="text-slate-400 text-sm max-w-md">${message}</p>
+      <h3 class="h5 fw-bold mb-2">${title}</h3>
+      <p class="text-secondary text-sm mb-0">${message}</p>
     </div>
   `;
 

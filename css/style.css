@@ -44,7 +44,7 @@ body {
 
 /* Hover Glowing borders */
 .hover-glow:hover {
-  border-color: rgba(56, 189, 248, 0.4);
+  border-color: rgba(56, 189, 248, 0.4) !important;
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
   transform: translateY(-2px);
 }
@@ -107,4 +107,45 @@ body {
 /* Smooth transitions */
 .transition-all-300 {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Form control custom styling to blend with glass theme */
+.form-control {
+  background: rgba(22, 27, 34, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #f3f4f6 !important;
+}
+
+.form-control::placeholder {
+  color: #6b7280 !important;
+}
+
+.form-control:focus {
+  background: rgba(22, 27, 34, 0.85) !important;
+  border-color: rgba(56, 189, 248, 0.5) !important;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.15) !important;
+  color: #f3f4f6 !important;
+}
+
+/* Custom color overrides and buttons */
+.btn-indigo-active {
+  background: rgba(99, 102, 241, 0.2) !important;
+  color: #818cf8 !important;
+  border: 1px solid rgba(99, 102, 241, 0.5) !important;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+}
+
+.btn-indigo-inactive {
+  background: rgba(31, 41, 55, 0.5) !important;
+  color: #9ca3af !important;
+  border: 1px solid rgba(31, 41, 55, 0.8) !important;
+}
+
+.btn-indigo-inactive:hover {
+  background: #1f2937 !important;
+  color: #f3f4f6 !important;
+}
+
+.hover-light:hover {
+  color: #f3f4f6 !important;
 }

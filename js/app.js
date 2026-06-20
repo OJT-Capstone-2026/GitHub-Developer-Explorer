@@ -55,8 +55,8 @@ function updateSortButtonsUI() {
     updated: document.getElementById('sort-updated')
   };
 
-  const activeClasses = ['bg-indigo-500/20', 'text-indigo-400', 'border-indigo-500/50', 'shadow-[0_0_15px_rgba(99,102,241,0.15)]'];
-  const inactiveClasses = ['bg-slate-800/50', 'text-slate-400', 'border-slate-800/80', 'hover:bg-slate-800', 'hover:text-slate-200'];
+  const activeClasses = ['btn-indigo-active'];
+  const inactiveClasses = ['btn-indigo-inactive'];
 
   Object.entries(buttons).forEach(([key, btn]) => {
     if (!btn) return;
@@ -114,7 +114,7 @@ async function performSearch(username) {
 }
 
 // Bind Global Application Event Listeners
-document.addEventListener('DOMContentLoaded', async () => {
+async function initApp() {
   const searchForm = document.getElementById('search-form');
   const searchInput = document.getElementById('username-input');
   const repoFilterInput = document.getElementById('repo-filter');
@@ -190,10 +190,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const decodedUser = decodeURIComponent(initialHash);
     if (searchInput) searchInput.value = decodedUser;
     performSearch(decodedUser);
-  } else {
-    // Default search example on landing
-    const defaultUser = 'octocat';
-    if (searchInput) searchInput.value = defaultUser;
-    performSearch(defaultUser);
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
