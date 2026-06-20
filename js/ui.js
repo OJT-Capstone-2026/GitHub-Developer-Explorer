@@ -538,6 +538,16 @@ export function showError(type) {
     message = 'The username you searched for does not exist on GitHub. Please check the spelling and try again.';
     icon = 'user-x';
     color = 'text-amber-400 border-amber-500/30 bg-amber-500/5';
+  } else if (type === 'INVALID_TOKEN') {
+    title = 'Invalid API Token';
+    message = 'The GitHub Personal Access Token in your .env file is invalid or expired. Please check your token format and permissions.';
+    icon = 'shield-alert';
+    color = 'text-rose-400 border-rose-500/30 bg-rose-500/5';
+  } else if (type === 'FORBIDDEN') {
+    title = 'Access Forbidden';
+    message = 'The request was forbidden. If you are using a Personal Access Token, ensure it has the correct permissions.';
+    icon = 'shield-off';
+    color = 'text-rose-400 border-rose-500/30 bg-rose-500/5';
   } else if (type === 'API_RATE_LIMIT_EXCEEDED') {
     title = 'Rate Limit Exceeded';
     message = 'GitHub API Rate Limit has been exceeded. Please check back later or set up a Personal Access Token.';
@@ -548,6 +558,12 @@ export function showError(type) {
     message = 'Unable to connect to GitHub. Please check your internet connection and try again.';
     icon = 'wifi-off';
     color = 'text-red-400 border-red-500/30 bg-red-500/5';
+  } else if (type && type.startsWith('HTTP_ERROR_')) {
+    const statusCode = type.replace('HTTP_ERROR_', '');
+    title = `HTTP Error ${statusCode}`;
+    message = `GitHub API returned an error status code ${statusCode}. Please try again later.`;
+    icon = 'alert-circle';
+    color = 'text-rose-400 border-rose-500/30 bg-rose-500/5';
   }
 
   errorContainer.innerHTML = `

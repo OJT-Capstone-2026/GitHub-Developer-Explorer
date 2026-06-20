@@ -32,10 +32,15 @@ async function githubFetch(endpoint) {
       }));
     }
 
+    if (response.status === 401) {
+      throw new Error('INVALID_TOKEN');
+    }
+
     if (response.status === 403) {
       if (remaining === '0') {
         throw new Error('API_RATE_LIMIT_EXCEEDED');
       }
+      throw new Error('FORBIDDEN');
     }
 
     if (response.status === 404) {
@@ -43,12 +48,18 @@ async function githubFetch(endpoint) {
     }
 
     if (!response.ok) {
-      throw new Error('HTTP_ERROR');
+      throw new Error(`HTTP_ERROR_${response.status}`);
     }
 
     return await response.json();
   } catch (error) {
-    if (error.message === 'API_RATE_LIMIT_EXCEEDED' || error.message === 'USER_NOT_FOUND') {
+    if (
+      error.message === 'API_RATE_LIMIT_EXCEEDED' ||
+      error.message === 'USER_NOT_FOUND' ||
+      error.message === 'INVALID_TOKEN' ||
+      error.message === 'FORBIDDEN' ||
+      error.message.startsWith('HTTP_ERROR_')
+    ) {
       throw error;
     }
     // Any other error (like CORS, offline, failed to fetch) is treated as a Network Error
